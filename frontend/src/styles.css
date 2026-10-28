@@ -228,14 +228,20 @@ button {
 }
 
 .logo {
-  font-size: 21px;
+  font-size: 36px;
   font-weight: 800;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 11px;
   background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.logo:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 8px 18px rgba(99, 102, 241, 0.32));
 }
 
 .logo-badge {
@@ -1235,6 +1241,9 @@ footer {
     display: none;
   }
   .pitch h1 {
+    font-size: 32px;
+  }
+  .logo {
     font-size: 32px;
   }
   .nav {

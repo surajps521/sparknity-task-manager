@@ -10,7 +10,6 @@ export default function TaskForm({ task, onSave, onCancel }) {
     }
   );
 
-  // Close modal on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -25,7 +24,6 @@ export default function TaskForm({ task, onSave, onCancel }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Helper date setter
   const setQuickDate = (daysFromToday) => {
     if (daysFromToday === null) {
       setFormData({ ...formData, dueDate: '' });

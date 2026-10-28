@@ -1,4 +1,5 @@
 backend/target/
+backend/*-error.txt
 frontend/node_modules/
 frontend/dist/
 frontend/.env

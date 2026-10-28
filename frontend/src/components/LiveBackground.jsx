@@ -20,7 +20,6 @@ export default function LiveBackground({ isDark = false }) {
 
     window.addEventListener('resize', handleResize);
 
-    // Mouse coordinates with smooth damping
     const mouse = {
       x: width / 2,
       y: height / 2,
@@ -36,7 +35,6 @@ export default function LiveBackground({ isDark = false }) {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Particle definition
     const particleCount = Math.min(Math.floor((width * height) / 18000), 65);
     let particles = [];
 
@@ -62,7 +60,6 @@ export default function LiveBackground({ isDark = false }) {
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
 
-        // Interaction with mouse
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -97,15 +94,12 @@ export default function LiveBackground({ isDark = false }) {
 
     initParticles();
 
-    // Render loop
     const render = () => {
-      // Damped mouse follow
       mouse.x += (mouse.targetX - mouse.x) * 0.08;
       mouse.y += (mouse.targetY - mouse.y) * 0.08;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle ambient glowing light follows mouse
       const glow = ctx.createRadialGradient(
         mouse.x,
         mouse.y,
@@ -126,7 +120,6 @@ export default function LiveBackground({ isDark = false }) {
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, width, height);
 
-      // Connect near particles
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();

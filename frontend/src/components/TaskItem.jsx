@@ -3,7 +3,6 @@ import React from 'react';
 export default function TaskItem({ task, onStatusChange, onEdit, onDelete }) {
   const isDone = task.status === 'DONE';
 
-  // Compute due date details and overdue status
   const getDueDetails = () => {
     if (!task.dueDate) return null;
     const today = new Date();

@@ -46,30 +46,30 @@ export default function Login() {
 
         <div className="pitch-content">
           <p className="kicker" style={{ color: '#a5b4fc' }}>
-            A LITTLE MORE CLARITY
+            FOCUS ON WHAT MATTERS
           </p>
           <h1>
-            Make room for<br />
-            <em>great work.</em>
+            Build better<br />
+            <em>work routines.</em>
           </h1>
           <p>
-            One intuitive workspace for all your tasks, priorities, and daily wins.
+            Turn daily priorities into steady progress with a workspace designed for focused work.
           </p>
 
           <div className="pitch-feature-list">
             <div className="pitch-feature-item">
-              <span>✓</span> Secure stateless JWT authentication
+              <span>✓</span> Plan routines that fit your day
             </div>
             <div className="pitch-feature-item">
-              <span>✓</span> User-scoped task privacy & PostgreSQL persistence
+              <span>✓</span> Keep priorities clear and organized
             </div>
             <div className="pitch-feature-item">
-              <span>✓</span> Interactive search, due date tracking & status filtering
+              <span>✓</span> Track progress from start to finish
             </div>
           </div>
         </div>
 
-        <small>Plan thoughtfully. Execute flawlessly. · Sparknity Internship</small>
+        <small>Plan your day. Focus on what matters.</small>
       </section>
 
       <section className="auth-right">

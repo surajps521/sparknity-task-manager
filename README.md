@@ -102,6 +102,3 @@ Do not push `.env`, secrets, `node_modules`, or Maven `target/`.
 5. Log in and show saved tasks.
 6. Use Postman to demonstrate JWT and a protected request without a token.
 7. Create a second account and verify it cannot see the first user's tasks.
-
-## Important
-This is a generated starter project. Run and test it in your own environment before submitting, fix any issues found, and understand each part well enough to explain it. The company may ask about the controller → service → repository layers, JWT filter, BCrypt, DTOs, ownership checks, and Axios interceptor.

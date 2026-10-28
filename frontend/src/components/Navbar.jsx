@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Navbar({ user, onNewTask }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(
-    () => localStorage.getItem('task_theme') || 'light'
+    () => localStorage.getItem('task_theme') || 'dark'
   );
 
   useEffect(() => {
@@ -22,7 +22,6 @@ export default function Navbar({ user, onNewTask }) {
     navigate('/login');
   };
 
-  // Get user initials
   const initials = (user?.name || 'U')
     .split(' ')
     .map((w) => w[0])

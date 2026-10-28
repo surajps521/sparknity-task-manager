@@ -73,10 +73,8 @@ export default function Dashboard() {
     loadTasks();
   }, []);
 
-  // Keyboard shortcuts ('N' for new task, '/' for search)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Don't trigger if user is actively typing in an input or textarea
       const tag = document.activeElement?.tagName?.toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select') {
         return;
@@ -150,7 +148,6 @@ export default function Dashboard() {
     }
   };
 
-  // Export tasks as JSON file (Bonus convenience feature)
   const handleExportJSON = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(tasks, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -162,14 +159,12 @@ export default function Dashboard() {
     showToast('Exported tasks to JSON file', 'info');
   };
 
-  // Helper check for overdue tasks
   const isTaskOverdue = (t) => {
     if (!t.dueDate || t.status === 'DONE') return false;
     const today = new Date().toISOString().slice(0, 10);
     return t.dueDate < today;
   };
 
-  // Counts
   const totalCount = tasks.length;
   const todoCount = tasks.filter((t) => t.status === 'TODO').length;
   const inProgressCount = tasks.filter((t) => t.status === 'IN_PROGRESS').length;
@@ -178,16 +173,13 @@ export default function Dashboard() {
 
   const completionRate = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
 
-  // Filter and Search logic
   let filteredTasks = tasks.filter((t) => {
-    // Status filter
     if (statusFilter === 'OVERDUE') {
       if (!isTaskOverdue(t)) return false;
     } else if (statusFilter !== 'ALL') {
       if (t.status !== statusFilter) return false;
     }
 
-    // Search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       const matchTitle = t.title.toLowerCase().includes(q);
@@ -198,7 +190,6 @@ export default function Dashboard() {
     return true;
   });
 
-  // Sorting logic
   filteredTasks.sort((a, b) => {
     if (sortBy === 'DUE_ASC') {
       if (!a.dueDate) return 1;
@@ -211,7 +202,6 @@ export default function Dashboard() {
     } else if (sortBy === 'TITLE_ASC') {
       return a.title.localeCompare(b.title);
     } else {
-      // NEWEST
       return (b.id || 0) - (a.id || 0);
     }
   });
@@ -262,7 +252,6 @@ export default function Dashboard() {
 
         {error && <div className="error">⚠️ {error}</div>}
 
-        {/* Productivity Completion Bar */}
         {totalCount > 0 && (
           <div className="productivity-card">
             <div className="productivity-info">
@@ -283,7 +272,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Metric Stats Cards */}
         <section className="stats">
           <div
             className="stat-panel stat-all"
@@ -329,7 +317,6 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Main Content Area */}
         <div className="content">
           <section className="panel">
             <div className="controls-bar">
@@ -365,7 +352,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Status Filter Tabs */}
               <div className="filter-tabs">
                 <button
                   type="button"
@@ -408,7 +394,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Tasks List */}
             {loading ? (
               <div className="empty">
                 <p>Loading your tasks…</p>
@@ -468,8 +453,8 @@ export default function Dashboard() {
         </div>
 
         <footer>
-          <span>TaskFlow Pro · Sparknity Full Stack Internship</span>
-          <span>JWT Stateless Auth & PostgreSQL Persisted</span>
+          <span>TaskFlow · Plan your day with intention</span>
+          <span>Keep focused. Make steady progress.</span>
         </footer>
       </main>
 

@@ -52,30 +52,30 @@ export default function Register() {
 
         <div className="pitch-content">
           <p className="kicker" style={{ color: '#a5b4fc' }}>
-            A LITTLE MORE CLARITY
+            START WITH INTENTION
           </p>
           <h1>
-            Make room for<br />
-            <em>great work.</em>
+            Create your<br />
+            <em>daily rhythm.</em>
           </h1>
           <p>
-            Join TaskFlow to organize your daily priorities and accomplish meaningful work with clarity.
+            Organize the work ahead, build reliable routines, and make progress one task at a time.
           </p>
 
           <div className="pitch-feature-list">
             <div className="pitch-feature-item">
-              <span>✓</span> Fast registration with encrypted BCrypt hashing
+              <span>✓</span> Shape routines around your priorities
             </div>
             <div className="pitch-feature-item">
-              <span>✓</span> Dedicated task board with real-time status transitions
+              <span>✓</span> Break important work into clear tasks
             </div>
             <div className="pitch-feature-item">
-              <span>✓</span> Built with Spring Boot 3, Java 17, and React
+              <span>✓</span> Keep momentum with visible progress
             </div>
           </div>
         </div>
 
-        <small>Plan thoughtfully. Execute flawlessly. · Sparknity Internship</small>
+        <small>Small steps, consistent progress.</small>
       </section>
 
       <section className="auth-right">
