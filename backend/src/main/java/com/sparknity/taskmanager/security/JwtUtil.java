@@ -10,6 +10,7 @@ import java.util.Date;
 public class JwtUtil {
  private final SecretKey key; private final long expiration;
  public JwtUtil(@Value("${app.jwt.secret}") String secret,@Value("${app.jwt.expiration-ms}") long expiration){
+  if(expiration<=0) throw new IllegalArgumentException("JWT expiration must be positive");
   key=Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)); this.expiration=expiration;
  }
  public String generate(String email){Date now=new Date();return Jwts.builder().subject(email).issuedAt(now).expiration(new Date(now.getTime()+expiration)).signWith(key).compact();}

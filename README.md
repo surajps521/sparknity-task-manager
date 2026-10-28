@@ -23,19 +23,32 @@ Create a database named `task_manager` in PostgreSQL:
 ```sql
 CREATE DATABASE task_manager;
 ```
-Defaults are localhost:5432, user `postgres`, password `postgres`. Set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` environment variables if yours differ.
+The default host/database is `localhost:5432/task_manager` and the default username is `postgres`. Set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` environment variables before starting the backend; the database password is intentionally not hardcoded.
 
 ## Run backend
 ```bash
 cd backend
 mvn spring-boot:run
 ```
+Set a strong Base64 JWT secret before starting the backend:
+```powershell
+$env:JWT_SECRET = "<base64-encoded-secret-at-least-256-bits>"
+```
+For local development, Vite origins `http://localhost:5173`, `http://127.0.0.1:5173`, `http://localhost:5174`, and `http://127.0.0.1:5174` are allowed. Configure deployed frontend origins with `CORS_ALLOWED_ORIGINS` as a comma-separated list.
+For local development only, you may set `JPA_DDL_AUTO=update`; use a reviewed migration strategy and `JPA_DDL_AUTO=validate` in deployed environments.
+
 To run unit tests:
 ```bash
 cd backend
 mvn test
 ```
-API base URL: `http://localhost:8080`. JPA `ddl-auto=update` creates/updates tables. For non-local use, set a unique strong Base64 `JWT_SECRET` environment variable (e.g. generate using `openssl rand -base64 32`) and never commit secrets. The checked-in default JWT secret is only for local demo.
+On Windows PowerShell, the included launcher can generate a temporary local JWT secret and prompt for the PostgreSQL password:
+```powershell
+cd backend
+.\run-backend.ps1
+```
+Run the backend and frontend in separate PowerShell terminals. The backend uses port `8080`; the Vite frontend uses port `5173`.
+API base URL: `http://localhost:8080`. Generate a unique strong Base64 `JWT_SECRET` (for example, `openssl rand -base64 32`) and never commit secrets.
 
 ## Run frontend
 In another terminal:

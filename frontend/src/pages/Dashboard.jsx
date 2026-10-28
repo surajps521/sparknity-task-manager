@@ -19,15 +19,31 @@ export default function Dashboard() {
   const [toast, setToast] = useState(null);
 
   const searchInputRef = useRef(null);
+  const toastTimerRef = useRef(null);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('task_user') || '{}');
+  const [user] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('task_user') || '{}');
+    } catch {
+      return {};
+    }
+  });
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
-    setTimeout(() => {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+    toastTimerRef.current = setTimeout(() => {
       setToast(null);
     }, 3500);
   };
+
+  useEffect(() => () => {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+  }, []);
 
   const loadTasks = async () => {
     setLoading(true);

@@ -13,13 +13,6 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleDemoFill = () => {
-    setFormData({
-      email: 'suraj.demo@test.com',
-      password: 'Password123!',
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -118,17 +111,6 @@ export default function Login() {
             <button type="submit" className="btn" disabled={loading}>
               {loading ? 'Signing in…' : 'Sign in →'}
             </button>
-
-            <div className="demo-helper">
-              <span>Quick demo test?</span>
-              <button
-                type="button"
-                className="btn secondary small"
-                onClick={handleDemoFill}
-              >
-                Autofill demo user
-              </button>
-            </div>
 
             <p className="muted center auth-footer">
               New to TaskFlow? <Link to="/register">Create an account</Link>

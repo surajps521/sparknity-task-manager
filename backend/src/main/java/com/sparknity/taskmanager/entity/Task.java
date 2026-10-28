@@ -1,7 +1,7 @@
 package com.sparknity.taskmanager.entity;
 import jakarta.persistence.*;
 import java.time.*;
-@Entity @Table(name="tasks")
+@Entity @Table(name="tasks", indexes=@Index(name="idx_tasks_user_created_at", columnList="user_id,created_at"))
 public class Task {
  @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
  @Column(nullable=false,length=160) private String title;

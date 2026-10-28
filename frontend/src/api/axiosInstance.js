@@ -18,4 +18,15 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('task_token');
+      localStorage.removeItem('task_user');
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;
