@@ -89,7 +89,7 @@ git init
 git add .
 git commit -m "Build Task Manager with JWT authentication"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/sparknity-task-manager.git
+git remote add origin https://github.com/surajps521/sparknity-task-manager.git
 git push -u origin main
 ```
 Do not push `.env`, secrets, `node_modules`, or Maven `target/`.
