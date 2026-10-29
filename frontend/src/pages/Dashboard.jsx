@@ -17,6 +17,8 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('NEWEST');
   const [toast, setToast] = useState(null);
+  const [chartRange, setChartRange] = useState(7);
+  const [activeChartPoint, setActiveChartPoint] = useState(null);
 
   const searchInputRef = useRef(null);
   const toastTimerRef = useRef(null);
@@ -173,6 +175,41 @@ export default function Dashboard() {
 
   const completionRate = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
 
+  const chartData = Array.from({ length: chartRange }, (_, index) => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - (chartRange - 1 - index));
+    const dateKey = date.toISOString().slice(0, 10);
+    const created = tasks.filter((task) => task.createdAt?.slice(0, 10) === dateKey);
+    const due = tasks.filter((task) => task.dueDate === dateKey);
+
+    return {
+      dateKey,
+      label: date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      created: created.length,
+      completed: created.filter((task) => task.status === 'DONE').length,
+      due: due.length,
+    };
+  });
+
+  const chartMax = Math.max(
+    1,
+    ...chartData.flatMap((point) => [point.created, point.completed, point.due])
+  );
+  const chartWidth = 760;
+  const chartHeight = 230;
+  const chartPadding = { top: 24, right: 18, bottom: 34, left: 34 };
+  const chartInnerWidth = chartWidth - chartPadding.left - chartPadding.right;
+  const chartInnerHeight = chartHeight - chartPadding.top - chartPadding.bottom;
+  const chartX = (index) =>
+    chartPadding.left + (index / Math.max(chartData.length - 1, 1)) * chartInnerWidth;
+  const chartY = (value) =>
+    chartPadding.top + chartInnerHeight - (value / chartMax) * chartInnerHeight;
+  const chartLine = (key) =>
+    chartData
+      .map((point, index) => `${chartX(index)},${chartY(point[key])}`)
+      .join(' ');
+
   let filteredTasks = tasks.filter((t) => {
     if (statusFilter === 'OVERDUE') {
       if (!isTaskOverdue(t)) return false;
@@ -314,6 +351,109 @@ export default function Dashboard() {
             <strong style={{ color: overdueCount > 0 ? 'var(--danger)' : 'inherit' }}>
               {overdueCount}
             </strong>
+          </div>
+        </section>
+
+        <section className="activity-card">
+          <div className="activity-header">
+            <div>
+              <p className="kicker">TASK RHYTHM</p>
+              <h2>Track your momentum</h2>
+              <p className="muted">See how your routines and priorities move through each day.</p>
+            </div>
+            <div className="range-switcher" aria-label="Activity range">
+              {[7, 14, 30].map((range) => (
+                <button
+                  type="button"
+                  key={range}
+                  className={chartRange === range ? 'active' : ''}
+                  onClick={() => {
+                    setChartRange(range);
+                    setActiveChartPoint(null);
+                  }}
+                >
+                  {range}d
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="activity-legend">
+            <span><i className="legend-dot created" />Created</span>
+            <span><i className="legend-dot completed" />Completed</span>
+            <span><i className="legend-dot due" />Scheduled</span>
+          </div>
+
+          <div className="activity-chart">
+            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img" aria-label="Task activity graph">
+              {[0, 0.5, 1].map((step) => {
+                const y = chartPadding.top + chartInnerHeight * step;
+                return (
+                  <line
+                    key={step}
+                    x1={chartPadding.left}
+                    x2={chartWidth - chartPadding.right}
+                    y1={y}
+                    y2={y}
+                    className="chart-grid-line"
+                  />
+                );
+              })}
+              <polyline points={chartLine('created')} className="chart-line created" />
+              <polyline points={chartLine('completed')} className="chart-line completed" />
+              <polyline points={chartLine('due')} className="chart-line due" />
+              {chartData.map((point, index) => {
+                const x = chartX(index);
+                const isActive = activeChartPoint === index;
+                return (
+                  <g key={point.dateKey}>
+                    <rect
+                      x={x - 18}
+                      y={chartPadding.top}
+                      width="36"
+                      height={chartInnerHeight}
+                      className="chart-hit-area"
+                      onMouseEnter={() => setActiveChartPoint(index)}
+                      onMouseLeave={() => setActiveChartPoint(null)}
+                    />
+                    {['created', 'completed', 'due'].map((key) => (
+                      <circle
+                        key={key}
+                        cx={x}
+                        cy={chartY(point[key])}
+                        r={isActive ? 5 : 3.5}
+                        className={`chart-point ${key}`}
+                      />
+                    ))}
+                    {(index === 0 || index === chartData.length - 1 || index % Math.ceil(chartData.length / 4) === 0) && (
+                      <text x={x} y={chartHeight - 10} textAnchor="middle" className="chart-label">
+                        {point.label}
+                      </text>
+                    )}
+                    {isActive && (
+                      <g className="chart-tooltip" pointerEvents="none">
+                        <rect
+                          x={Math.min(Math.max(x - 66, 4), chartWidth - 140)}
+                          y="6"
+                          width="132"
+                          height="58"
+                          rx="8"
+                        />
+                        <text x={Math.min(Math.max(x, 70), chartWidth - 70)} y="25" textAnchor="middle">
+                          {point.label}
+                        </text>
+                        <text x={Math.min(Math.max(x, 70), chartWidth - 70)} y="43" textAnchor="middle">
+                          {point.created} created · {point.completed} done
+                        </text>
+                        <text x={Math.min(Math.max(x, 70), chartWidth - 70)} y="57" textAnchor="middle">
+                          {point.due} scheduled
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
           </div>
         </section>
 

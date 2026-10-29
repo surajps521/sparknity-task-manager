@@ -480,6 +480,152 @@ button {
   line-height: 1;
 }
 
+.activity-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px 16px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.activity-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.activity-header h2 {
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.range-switcher {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+}
+
+.range-switcher button {
+  border: 0;
+  border-radius: var(--radius-full);
+  padding: 6px 11px;
+  color: var(--text-muted);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.range-switcher button:hover {
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.range-switcher button.active {
+  color: white;
+  background: var(--primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.28);
+}
+
+.activity-legend {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.activity-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.created, .chart-point.created, .chart-line.created {
+  background: var(--primary);
+  stroke: var(--primary);
+}
+
+.legend-dot.completed, .chart-point.completed, .chart-line.completed {
+  background: var(--success);
+  stroke: var(--success);
+}
+
+.legend-dot.due, .chart-point.due, .chart-line.due {
+  background: #a855f7;
+  stroke: #a855f7;
+}
+
+.activity-chart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.activity-chart svg {
+  display: block;
+  width: 100%;
+  min-width: 520px;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-grid-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+
+.chart-point {
+  stroke-width: 2;
+  stroke: var(--bg-card);
+  transition: r 0.15s ease;
+}
+
+.chart-hit-area {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+.chart-label {
+  fill: var(--text-muted);
+  font-size: 11px;
+}
+
+.chart-tooltip rect {
+  fill: var(--text-main);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+.chart-tooltip text {
+  fill: var(--bg-app);
+  font-size: 10px;
+  font-weight: 700;
+}
+
 /* Content & List area */
 .content {
   display: grid;
@@ -1267,6 +1413,12 @@ footer {
   .productivity-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .activity-header {
+    flex-direction: column;
+  }
+  .activity-chart {
+    overflow-x: auto;
   }
   .progress-track {
     max-width: 100%;
